@@ -1,0 +1,161 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en" ng-app="reportApp" >
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.9.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    @*<script src="~/Scripts/angular.min.js"></script>*@
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    @*<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>*@
+  
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/vue.min.js"></script>
+    @*<script src="~/Scripts/controllers.js"></script>*@
+    <style>
+        table, th, td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+            table tr:nth-child(odd) {
+                background-color: #f1f1f1;
+            }
+
+            table tr:nth-child(even) {
+                background-color: #ffffff;
+            }
+    </style>
+    <script>
+        function f1() {
+            const a = 3;
+            a=4;
+            console.log("aa:"+a);
+        }
+    </script>
+</head>
+<body >
+  
+    <script>
+       
+    </script>
+    @*<div class="container-fluid" ng-app="phonecatApp" ng-controller="PhoneListCtrl">
+        <div class="row">
+            <div class="col-md-2">
+                <!--Sidebar content-->
+                Search: <input ng-model="query">
+                Sort by:
+                <select ng-model="orderProp">
+                    <option value="name">Alphabetical</option>
+                    <option value="age">Newest</option>
+                </select>
+
+            </div>
+            <div class="col-md-10">
+                <!--Body content-->
+
+                <ul class="phones">
+                    <li ng-repeat="phone in phones | filter:query | orderBy:orderProp">
+                        <span>{{phone.name}}</span>
+                        <p>{{phone.snippet}}</p>
+                    </li>
+                </ul>
+                <table>
+                    <tr ng-repeat="phone in phones | filter:query | orderBy:orderProp">
+                        <td>{{phone.name}}</td>
+                        <td>{{phone.snippet}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>*@
+   
+    <h3>Angular</h3>
+    <hr />
+    <div  ng-controller="namesController">
+
+        <ul>
+            <li ng-repeat="x in names">
+                <div ng-if="x.isActive">
+                    <a href="#" >{{ x.age + ', ' + x.name }}</a>
+                </div>
+                <div ng-if="!x.isActive">
+                    {{ x.age + ', ' + x.name }}
+                </div>
+               
+            </li>
+        </ul>
+        <ul class="report-list" ng-repeat="x in names">
+            <li class="active">
+                <a href="#" class="report-name" data-id="{{x.name}}">{{ x.age }}</a>
+                <a href="#" class="pink"><span class="ace-icon fa fa-trash-o delete-report"></span></a>
+            </li>
+
+        </ul>
+    </div>
+    <h3>Vue</h3>
+    <hr />
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in items">
+                {{ todo.name }}
+            </li>
+        </ol>
+    </div>
+    <script>
+        var dd;
+        var app4 = new Vue({
+            el: '#app-4',
+            data: {
+                todos: [
+                  { text: 'Learn JavaScript' },
+                  { text: 'Learn Vue' },
+                  { text: 'Build something awesome' }
+                ],
+                items:[]
+            },
+            ready: function () {
+                var self = this;
+         $.ajax({
+            url: "/home/JsonR",
+            method: "get",
+            data: {},
+            dataType: "json",
+            cache:false
+         }).done(function(res){
+         
+             self.items=res;
+         })
+            }
+        })
+        var reportApp = angular.module('reportApp', []);
+
+        reportApp.controller('namesController', function ($scope, $http) {
+            //$http.get('home/JsonR').then($scope.sc,null);
+            //$scope.sc =function(response){
+
+            //}
+            $http.get('home/JsonR')
+     .then(function (success){
+         $scope.names = success.data;
+         dd=success;
+     },function (error){
+
+     });
+            //$scope.orderProp = 'age';
+            //$scope.names = [
+            //    { name: 'Jani', country: 'Norway' },
+            //    { name: 'Hege', country: 'Sweden' },
+            //    { name: 'Kai', country: 'Denmark' }
+            //];
+        });
+    </script>
+</body>
+</html>
